@@ -22,7 +22,8 @@ All logits subtract **log q(·)** for **importance sampling correction**, making
 
 ### 1. Frequency Statistics (`log q`)
 
-Use `polars` to count item frequencies and build
+Use `polars` to count item frequencies and build 
+
 $$
 q(i)\propto \mathrm{freq}(i)^{0.75}
 $$
@@ -54,10 +55,10 @@ Exclude items already shown in the current sequence when sampling.
 
 ## In-Batch Hard Negative Mining (Top-k)
 
-**Motivation:** late training = most negatives easy → dilute gradient.
+Late training = most negatives easy → dilute gradient.
 Keep only **top-k hardest** negatives per batch.
 
-To balance sources, apply top-k **separately** for in-batch and global negatives.
+To prevent top-k from being dominated by in-batch negatives in the later stages of training, apply top-k separately to in-batch and global negatives.
 
 ---
 
@@ -77,16 +78,13 @@ No handcrafted features.
 ### 2. User as BOS + FiLM Conditioning
 
 User features = **first token (mask = 2)**, `pos_emb = 0`.
-Aggregated user vector → `(γ, β)` → FiLM modulation:
-$$
-x_t' = x_t \cdot (1+\gamma) + \beta
-$$
+Aggregated user vector → `(γ, β)` → FiLM modulation: $x_t' = x_t \cdot (1+\gamma) + \beta$
 
 ### 3. Time & Action
 
 * **Cyclic time**: sin/cos(hour, weekday)
 * **Relative Attention Bias (RAB)**: log-bucketed time difference as additive bias
-* **Action type**: added via embedding to input (applied across all layers)
+* **Next action type**: added to the input via embeddings for conditional generation.
 
 ---
 
@@ -96,13 +94,11 @@ $$
 
 1. Linear → **U/V/Q/K** (multi-head split)
 2. Compute logits:
-   $$
-   \frac{QK^\top}{\sqrt{d_k}} + \mathrm{RAB}
-   $$
+   $\frac{QK^\top}{\sqrt{d_k}} + \mathrm{RAB}$
    → apply **SiLU** instead of softmax → weights A
-3. Aggregate Y = A @ V
-4. Normalize Y and **gate** with U
-5. Linear projection + residual connection
+4. Aggregate Y = A @ V
+5. Normalize Y and **gate** with U
+6. Linear projection + residual connection
 
 ---
 
@@ -112,5 +108,6 @@ $$
 * Exclude items already seen in user history during sampling
 
 ---
+
 
 
