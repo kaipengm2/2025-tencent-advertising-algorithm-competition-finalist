@@ -57,25 +57,23 @@ Feature IDs are stored as strings; their values are re-indexed feature value IDs
 
 A Python pickle file that stores all mappings from original IDs to re-indexed IDs:
 
-* **`indexer['u']`** – a list of `(raw_user_id, user_reid)` pairs:
-
+* **`indexer['u']`** – a dictionary mapping `raw_user_id` to `user_reid`, e.g.
   ```python
-  [
-    ('user_1109670', 292),
-    ('user_1091939', 364),
-    ...
-  ]
+  {
+      'user_1109670': 292,
+      'user_1091939': 364,
+      ...
+  }
   ```
 
-* **`indexer['i']`** – a list of `(raw_item_id, item_reid)` pairs:
-
-  ```python
-  [
-    (30001221920, 42033),
-    (30002476010, 51725),
+* **`indexer['i']`** – a dictionary mapping `raw_item_id` to `item_reid`, e.g.
+```python
+{
+    'cid_30001221920': 42033,
+    'cid_30002476010': 51725,
     ...
-  ]
-  ```
+}
+```
 
 * **`indexer['f']`** – per-feature mappings of raw feature values to re-indexed values.
   Example for feature `112`:
