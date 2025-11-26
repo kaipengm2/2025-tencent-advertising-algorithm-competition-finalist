@@ -112,6 +112,8 @@ In addition to `seq.jsonl`, the following files are involved:
   }
   ```
 
+For more details, see [data_format.md](data_format.md).
+
 ### **Evaluation data**
 
 The following files are required under `EVAL_DATA_PATH`:
@@ -162,8 +164,6 @@ The following files are required under `EVAL_DATA_PATH`:
   {"creative_id": "cid_00123456789", "features": {"100": 12, "117": 5, "118": 1024}}
   {"creative_id": "cid_00987654321", "features": {"100": 3, "117": 8, "118": 2048}}
   ```
-  
-For more details, see [data_format.md](data_format.md).
 
 ---
 
@@ -273,5 +273,6 @@ Developed upon the baseline of the 2025 Tencent Advertising Algorithm Competitio
 
 
 References the official HSTU implementation (“Actions Speak Louder than Words: Trillion-Parameter Sequential Transducers for Generative Recommendations”).
+
 
 
